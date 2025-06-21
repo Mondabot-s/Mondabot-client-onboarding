@@ -50,11 +50,16 @@ const OverviewSection = () => (
           <h2 className="text-xl font-semibold text-text-primary mb-4">
             Welcome Video
           </h2>
-          <div className="relative aspect-video rounded-lg bg-gray-200 flex items-center justify-center">
-            <Icon
-              icon={PlayCircle}
-              className="w-20 h-20 text-gray-400"
-            />
+          <div className="relative aspect-video rounded-lg overflow-hidden">
+            <iframe
+              src="https://player.vimeo.com/video/1068762817?h=1234567890abcdef&title=0&byline=0&portrait=0"
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            ></iframe>
           </div>
           <p className="text-sm text-text-secondary mt-2">
             A personal message from our CEO explaining the automation process
@@ -89,9 +94,12 @@ const OverviewSection = () => (
           <div className="space-y-2">
             <div className="flex items-center text-sm">
               <Icon icon={Mail} className="w-5 h-5 mr-3" />
-              <span className="text-text-secondary">
+              <a 
+                href="mailto:sergio@mondabot.com"
+                className="text-text-secondary hover:text-primary transition-colors cursor-pointer"
+              >
                 sergio@mondabot.com
-              </span>
+              </a>
             </div>
             <div className="flex items-center text-sm">
               <Icon icon={Phone} className="w-5 h-5 mr-3" />
@@ -99,11 +107,25 @@ const OverviewSection = () => (
             </div>
             <div className="flex items-center text-sm">
               <Icon icon={Calendar} className="w-5 h-5 mr-3" />
-              <span className="text-text-secondary">Schedule a call</span>
+              <a 
+                href="https://calendly.com/mondabot/30min?month=2025-06"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-secondary hover:text-primary transition-colors cursor-pointer"
+              >
+                Schedule a call
+              </a>
             </div>
             <div className="flex items-center text-sm">
               <Icon icon={MessageSquare} className="w-5 h-5 mr-3" />
-              <span className="text-text-secondary">WhatsApp</span>
+              <a 
+                href="https://www.linkedin.com/in/sergio-bernal-300816206/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-secondary hover:text-primary transition-colors cursor-pointer"
+              >
+                WhatsApp
+              </a>
             </div>
           </div>
         </Card>
