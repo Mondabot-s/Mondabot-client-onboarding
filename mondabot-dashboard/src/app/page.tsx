@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from 'react';
 import Card from '../ui/Card';
 import Icon from '../ui/Icon';
 import ProgressBar from '../ui/ProgressBar';
+import Image from 'next/image';
 import {
   CheckCircle2,
   Mic,
@@ -20,11 +20,6 @@ import {
   Clock,
   ListChecks,
   ArrowRight,
-  Rocket,
-  BarChart2,
-  Library,
-  Settings,
-  ClipboardCheck,
 } from 'lucide-react';
 
 // Overview Section
@@ -74,9 +69,11 @@ const OverviewSection = () => (
           </h2>
           <div className="flex items-center space-x-4 mb-4">
             <div className="w-16 h-16 rounded-full overflow-hidden">
-              <img 
+              <Image 
                 src="/Sergio_Bernal.jpg" 
                 alt="Sergio Bernal" 
+                width={64}
+                height={64}
                 className="w-full h-full object-cover"
               />
             </div>

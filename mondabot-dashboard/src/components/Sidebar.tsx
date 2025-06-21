@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
@@ -40,7 +38,6 @@ const resourcesLinks = [
 ];
 
 export default function Sidebar() {
-  const pathname = usePathname();
   const [activeSection, setActiveSection] = useState('overview');
 
   useEffect(() => {
