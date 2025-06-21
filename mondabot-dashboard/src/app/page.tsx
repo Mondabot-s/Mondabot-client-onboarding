@@ -14,7 +14,6 @@ import {
   Mail,
   Phone,
   MessageSquare,
-  PlayCircle,
   User,
   FileText,
   Clock,
