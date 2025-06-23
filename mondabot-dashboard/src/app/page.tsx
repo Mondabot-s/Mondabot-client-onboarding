@@ -257,20 +257,6 @@ const MondabotDashboard = () => {
                             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
                                 {/* Left column */}
                                 <div className="xl:col-span-2 space-y-4">
-                                    {/* Action Required Alert */}
-                                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 card !shadow-none !border-yellow-200">
-                                        <div className="flex items-start">
-                                            <i className="fas fa-exclamation-triangle text-yellow-500 text-lg mr-3"></i>
-                                            <div>
-                                                <h4 className="font-bold text-yellow-800 text-sm">Action Required</h4>
-                                                <p className="text-yellow-700 mt-1 mb-2 text-sm">We need your feedback on the WhatsApp bot conversation flows before we can proceed to launch.</p>
-                                                <button className="bg-yellow-400 text-yellow-900 px-3 py-1.5 rounded-lg hover:bg-yellow-500 transition-colors font-semibold text-xs">
-                                                    <i className="fas fa-comment-dots mr-1"></i>Provide Feedback
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     {/* Welcome Video */}
                                     <div className="card p-2">
                                         <h3 className="card-header mb-2">Welcome to your Dashboard!</h3>
@@ -284,6 +270,20 @@ const MondabotDashboard = () => {
                                             ></iframe>
                                         </div>
                                         <p className="text-sm text-gray-600 mt-1">A personal message from our CEO explaining the automation process.</p>
+                                    </div>
+
+                                    {/* Action Required Alert */}
+                                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 card !shadow-none !border-yellow-200">
+                                        <div className="flex items-start">
+                                            <i className="fas fa-exclamation-triangle text-yellow-500 text-lg mr-3"></i>
+                                            <div>
+                                                <h4 className="font-bold text-yellow-800 text-sm">Action Required</h4>
+                                                <p className="text-yellow-700 mt-1 mb-2 text-sm">We need your feedback on the WhatsApp bot conversation flows before we can proceed to launch.</p>
+                                                <button className="bg-yellow-400 text-yellow-900 px-3 py-1.5 rounded-lg hover:bg-yellow-500 transition-colors font-semibold text-xs">
+                                                    <i className="fas fa-comment-dots mr-1"></i>Provide Feedback
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     {/* Quick Stats - Reduced spacing */}

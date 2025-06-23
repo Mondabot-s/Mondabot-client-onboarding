@@ -3,6 +3,13 @@
 :root {
   --background: #FFF9F9;
   --foreground: #171717;
+  --theme-primary: #CC1075;
+  --theme-bg-light: #FFF9F9;
+  --theme-bg-dark: #000B33;
+  --theme-text-light: #FFFFFF;
+  --theme-text-dark: #000B33;
+  --theme-text-muted: #4a5568;
+  --font-family-sans: 'Inter', sans-serif;
 }
 
 @theme inline {
