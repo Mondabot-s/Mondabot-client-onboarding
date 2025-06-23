@@ -257,21 +257,6 @@ const MondabotDashboard = () => {
                             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
                                 {/* Left column */}
                                 <div className="xl:col-span-2 space-y-4">
-                                    {/* Welcome Video - Back to top */}
-                                    <div className="card p-2">
-                                        <h3 className="card-header mb-2">Welcome to your Dashboard!</h3>
-                                        <div className="relative w-full max-w-2xl mx-auto" style={{paddingBottom: '56.25%'}}>
-                                            <iframe 
-                                                src="https://player.vimeo.com/video/1068762817?h=1234567890abcdef&title=0&byline=0&portrait=0" 
-                                                frameBorder="0" 
-                                                allow="autoplay; fullscreen; picture-in-picture" 
-                                                allowFullScreen
-                                                className="absolute top-0 left-0 w-full h-full rounded-lg"
-                                            ></iframe>
-                                        </div>
-                                        <p className="text-sm text-gray-600 mt-1">A personal message from our CEO explaining the automation process.</p>
-                                    </div>
-
                                     {/* Action Required Alert */}
                                     <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 card !shadow-none !border-yellow-200">
                                         <div className="flex items-start">
@@ -284,6 +269,21 @@ const MondabotDashboard = () => {
                                                 </button>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    {/* Welcome Video */}
+                                    <div className="card p-2">
+                                        <h3 className="card-header mb-2">Welcome to your Dashboard!</h3>
+                                        <div className="relative w-full max-w-2xl mx-auto" style={{paddingBottom: '56.25%'}}>
+                                            <iframe 
+                                                src="https://player.vimeo.com/video/1068762817?h=1234567890abcdef&title=0&byline=0&portrait=0" 
+                                                frameBorder="0" 
+                                                allow="autoplay; fullscreen; picture-in-picture" 
+                                                allowFullScreen
+                                                className="absolute top-0 left-0 w-full h-full rounded-lg"
+                                            ></iframe>
+                                        </div>
+                                        <p className="text-sm text-gray-600 mt-1">A personal message from our CEO explaining the automation process.</p>
                                     </div>
 
                                     {/* Quick Stats - Reduced spacing */}
