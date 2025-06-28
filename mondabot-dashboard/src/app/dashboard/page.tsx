@@ -19,21 +19,11 @@ import {
   Clock,
   ListChecks,
   ArrowRight,
-  BarChart3,
-  TrendingUp,
-  Users,
-  Activity,
-  Settings,
-  Zap,
-  Shield,
-  Globe,
 } from 'lucide-react';
 import { useState } from 'react';
 
 // Overview Section
 const OverviewSection = () => {
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-
   return (
     <section id="overview" className="mb-16">
       <header className="flex justify-between items-center mb-8">
@@ -70,7 +60,6 @@ const OverviewSection = () => {
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen
                 className="absolute inset-0 w-full h-full"
-                onLoad={() => setIsVideoPlaying(true)}
               ></iframe>
             </div>
             <p className="text-sm text-text-secondary mt-2">
