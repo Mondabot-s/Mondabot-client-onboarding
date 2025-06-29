@@ -24,7 +24,7 @@ export default function UpdatesPage() {
                         </div>
                         <div>
                             <h4 className="font-semibold text-gray-900">WhatsApp Bot Configuration</h4>
-                            <p className="text-gray-600">We've configured your WhatsApp bot with your business information and conversation flows.</p>
+                            <p className="text-gray-600">We&apos;ve configured your WhatsApp bot with your business information and conversation flows.</p>
                             <p className="text-sm text-gray-500 mt-1">4 days ago</p>
                         </div>
                     </div>

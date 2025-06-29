@@ -9,7 +9,7 @@ interface Task {
   description?: string;
   priority?: 'low' | 'medium' | 'high';
   // Add any other fields that might come from Airtable
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface UseTasksReturn {
@@ -40,9 +40,11 @@ export const useTasks = (): UseTasksReturn => {
       console.log('Tasks fetched successfully:', response.data);
       
       setTasks(response.data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error fetching tasks:', err);
-      setError(err.response?.data?.message || err.message || 'Failed to fetch tasks');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch tasks';
+      const apiError = axios.isAxiosError(err) ? err.response?.data?.message : null;
+      setError(apiError || errorMessage);
       
       // Fallback to dummy data if API fails
       setTasks([
