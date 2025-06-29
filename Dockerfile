@@ -9,16 +9,19 @@ COPY package*.json ./
 COPY mondabot-dashboard/package*.json ./mondabot-dashboard/
 COPY server/package*.json ./server/
 
-# Install dependencies
-RUN npm install --production
-RUN cd mondabot-dashboard && npm install --production
+# Install ALL dependencies (including devDependencies) for building
+RUN npm install
+RUN cd mondabot-dashboard && npm install
 RUN cd server && npm install --production
 
 # Copy source code
 COPY . .
 
-# Build the Next.js frontend
+# Build the Next.js frontend (this needs devDependencies)
 RUN cd mondabot-dashboard && npm run build
+
+# Remove devDependencies after build to reduce image size
+RUN cd mondabot-dashboard && npm prune --production
 
 # Create a non-root user for security
 RUN addgroup -g 1001 -S nodejs
