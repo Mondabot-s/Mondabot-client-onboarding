@@ -21,6 +21,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { useState } from 'react';
+import { useTasks } from '../../hooks/useTasks';
 
 // Overview Section
 const OverviewSection = () => {
@@ -425,13 +426,14 @@ const StrategySection = () => {
 
 // Setup Section
 const SetupSection = () => {
-  const [setupTasks, setSetupTasks] = useState([
-    { id: 1, title: 'Configuración de Twilio API', status: 'completed', description: 'Configuración de credenciales y números de teléfono' },
-    { id: 2, title: 'Integración con HubSpot', status: 'in-progress', description: 'Configuración de webhooks y sincronización de datos' },
-    { id: 3, title: 'Configuración de IA Voice', status: 'pending', description: 'Entrenamiento del modelo de reconocimiento de voz' },
-    { id: 4, title: 'Configuración de n8n Workflows', status: 'pending', description: 'Creación de flujos de automatización' },
-    { id: 5, title: 'Configuración de Base de Datos', status: 'completed', description: 'Configuración de esquemas y tablas' },
-  ]);
+  const { 
+    tasks: setupTasks, 
+    loading, 
+    error, 
+    updateTaskStatus, 
+    socketConnected, 
+    socketError 
+  } = useTasks();
 
   const apiConfigs = [
     {
@@ -455,43 +457,69 @@ const SetupSection = () => {
   ];
 
   const completedTasks = setupTasks.filter(task => task.status === 'completed').length;
-  const progressPercentage = (completedTasks / setupTasks.length) * 100;
+  const progressPercentage = setupTasks.length > 0 ? (completedTasks / setupTasks.length) * 100 : 0;
 
-  const handleTaskStatusChange = (taskId: number, newStatus: string) => {
-    setSetupTasks(tasks =>
-      tasks.map(task =>
-        task.id === taskId ? { ...task, status: newStatus } : task
-      )
-    );
+  const handleTaskStatusChange = (taskId: string, newStatus: 'pending' | 'in-progress' | 'completed') => {
+    updateTaskStatus(taskId, newStatus);
   };
 
   return (
     <section id="setup" className="mb-16">
       <header className="mb-8">
-        <h2 className="text-3xl font-bold text-text-primary">
-          Step 3: Setup
-        </h2>
-        <p className="text-text-secondary mt-1">
-          Technical configuration and integration setup for your automation system.
-        </p>
+        <div className="flex justify-between items-start">
+          <div>
+            <h2 className="text-3xl font-bold text-text-primary">
+              Step 3: Setup
+            </h2>
+            <p className="text-text-secondary mt-1">
+              Technical configuration and integration setup for your automation system.
+            </p>
+          </div>
+          <div className="flex items-center space-x-4">
+            <div className={`flex items-center px-3 py-1 rounded-full text-sm ${
+              socketConnected 
+                ? 'bg-green-100 text-green-700' 
+                : 'bg-gray-100 text-gray-700'
+            }`}>
+              <div className={`w-2 h-2 rounded-full mr-2 ${
+                socketConnected ? 'bg-green-500' : 'bg-gray-500'
+              }`}></div>
+              {socketConnected ? 'Real-time Connected' : 'Real-time Disconnected'}
+            </div>
+          </div>
+        </div>
+        {socketError && (
+          <div className="mt-2 p-2 bg-yellow-50 border border-yellow-200 rounded text-sm text-yellow-700">
+            ⚠️ Real-time connection: {socketError}
+          </div>
+        )}
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <Card>
           <h3 className="text-xl font-semibold mb-4">Setup Progress</h3>
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-700">⚠️ {error}</p>
+              <p className="text-xs text-red-600 mt-1">Using fallback data for display</p>
+            </div>
+          )}
           <div className="mb-4">
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm font-medium">Overall Progress</span>
-              <span className="text-sm text-gray-600">{Math.round(progressPercentage)}%</span>
+              <span className="text-sm text-gray-600">
+                {loading ? 'Loading...' : `${Math.round(progressPercentage)}%`}
+              </span>
             </div>
-            <ProgressBar value={progressPercentage} />
+            <ProgressBar value={loading ? 0 : progressPercentage} />
           </div>
           <div className="space-y-3">
             {setupTasks.map((task) => (
               <div key={task.id} className="flex items-start space-x-3">
                 <button
                   onClick={() => {
-                    const statuses = ['pending', 'in-progress', 'completed'];
+                    if (!task.id || !task.status) return;
+                    const statuses: ('pending' | 'in-progress' | 'completed')[] = ['pending', 'in-progress', 'completed'];
                     const currentIndex = statuses.indexOf(task.status);
                     const nextStatus = statuses[(currentIndex + 1) % statuses.length];
                     handleTaskStatusChange(task.id, nextStatus);

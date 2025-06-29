@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import "../app/globals.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
+import "@fortawesome/fontawesome-free/css/all.css";
+import Layout from "../components/Layout";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -23,9 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} font-sans page-background`}>
-        <div className="min-h-screen w-full">
+        <Layout>
           {children}
-        </div>
+        </Layout>
       </body>
     </html>
   );

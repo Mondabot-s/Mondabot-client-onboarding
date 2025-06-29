@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# new env variables
+AIRTABLE_PAT=patBZmYpS9tZ749B4.38b5242c6213de0735ae47d420ae040710f819c25e06c61ccebad74b52e418e6
+AIRTABLE_BASE_ID=appYNr1T9N3F7sm81
