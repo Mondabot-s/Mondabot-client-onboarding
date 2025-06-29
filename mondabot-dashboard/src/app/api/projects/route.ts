@@ -4,9 +4,13 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    console.log('Proxying request to Express server...');
+    // Use environment variable for server URL, fallback to localhost for development
+    const serverUrl = process.env.EXPRESS_SERVER_URL || 'http://localhost:3001';
+    const apiUrl = `${serverUrl}/api/projects`;
     
-    const response = await fetch('http://localhost:3001/api/projects', {
+    console.log(`Proxying request to Express server at: ${apiUrl}`);
+    
+    const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -25,19 +29,19 @@ export async function GET() {
     console.log(`Successfully proxied ${data.length} projects from Express server`);
     return NextResponse.json(data);
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Proxy error:', error);
     
-    // Express server is not running
+    // Express server is not running or not accessible
     return NextResponse.json(
       {
         error: 'Backend server unavailable',
-        message: 'Cannot connect to Express server on port 3001',
-        help: 'Please ensure the Express server is running: npm run server',
+        message: 'Cannot connect to Express server',
+        help: 'Please ensure the Express server is running and accessible',
         instructions: [
-          'Run "npm run server" or "node server/server.js" to start the Express server.',
-          'Check if port 3001 is available',
-          'Verify server console for startup errors'
+          'For local development: Run "npm run server" or "node server/server.js"',
+          'For production: Set EXPRESS_SERVER_URL environment variable',
+          'Check if the server is accessible from this environment'
         ],
         details: error instanceof Error ? error.message : 'Unknown error'
       },

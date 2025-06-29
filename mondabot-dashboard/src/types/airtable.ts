@@ -17,7 +17,7 @@ export interface Project {
   name: string;
   status: 'Building' | 'Live' | 'Testing';
   deadline: string | null;
-  : string[];
+  assignedManager: string[];
   tasks: Task[];
 }
 
