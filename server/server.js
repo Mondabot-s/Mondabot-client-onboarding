@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const path = require('path');
+const cors = require('cors');
 
 // Load environment variables FIRST with error handling
 try {
@@ -26,28 +27,19 @@ const server = http.createServer(app);
 // Middleware
 app.use(express.json());
 
-// CORS - Production-ready configuration
-app.use((req, res, next) => {
-  const allowedOrigins = [
+// CORS - Using the cors package for better compatibility
+const corsOptions = {
+  origin: [
     'http://localhost:3000',
     'http://localhost:5173',
     process.env.FRONTEND_URL || 'http://localhost:3001'
-  ].filter(Boolean);
-  
-  const origin = req.headers.origin;
-  if (!origin || allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin || '*');
-  }
-  
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
-  }
-  next();
-});
+  ].filter(Boolean),
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 
 // Request logging
 app.use((req, res, next) => {
