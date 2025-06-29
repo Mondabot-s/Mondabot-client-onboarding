@@ -26,11 +26,23 @@ const server = http.createServer(app);
 // Middleware
 app.use(express.json());
 
-// CORS - Simple and permissive for development
+// CORS - Production-ready configuration
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    process.env.FRONTEND_URL || 'http://localhost:3001'
+  ].filter(Boolean);
+  
+  const origin = req.headers.origin;
+  if (!origin || allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin || '*');
+  }
+  
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  
   if (req.method === 'OPTIONS') {
     return res.sendStatus(200);
   }
@@ -79,11 +91,16 @@ try {
   const socketIo = require('socket.io');
   io = socketIo(server, {
     cors: {
-      origin: ['http://localhost:3000', 'http://localhost:5173'],
+      origin: [
+        'http://localhost:3000',
+        'http://localhost:5173',
+        process.env.FRONTEND_URL || 'http://localhost:3001'
+      ].filter(Boolean),
       methods: ['GET', 'POST'],
       credentials: true
     },
-    transports: ['polling', 'websocket']
+    transports: ['polling', 'websocket'],
+    allowEIO3: true
   });
   
   io.on('connection', (socket) => {
@@ -321,6 +338,25 @@ app.post('/api/webhooks/airtable-projects', (req, res) => {
       error: error.message 
     });
   }
+});
+
+// Serve static files from Next.js build output
+app.use(express.static(path.join(__dirname, '../mondabot-dashboard/out')));
+
+// Catch-all handler: send back React's index.html file for any non-API routes
+app.get('*', (req, res, next) => {
+  // Skip API routes
+  if (req.path.startsWith('/api/') || req.path === '/health') {
+    return next();
+  }
+  
+  // Serve the Next.js app for all other routes
+  res.sendFile(path.join(__dirname, '../mondabot-dashboard/out/index.html'), (err) => {
+    if (err) {
+      console.error('Error serving index.html:', err);
+      res.status(500).send('Error loading application');
+    }
+  });
 });
 
 // 404 handler
