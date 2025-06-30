@@ -9,15 +9,27 @@ interface UseSocketReturn {
   error: string | null;
 }
 
-export const useSocket = (url: string = 'http://localhost:3001'): UseSocketReturn => {
+// Function to get the correct socket URL based on environment
+const getSocketUrl = (): string => {
+  // In production (deployed), use the same origin as the current page
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
+    return window.location.origin;
+  }
+  
+  // In development, use localhost:3001
+  return 'http://localhost:3001';
+};
+
+export const useSocket = (url?: string): UseSocketReturn => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [connected, setConnected] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log('Connecting to Socket.IO server...');
+    const socketUrl = url || getSocketUrl();
+    console.log('Connecting to Socket.IO server at:', socketUrl);
     
-    const socketConnection = io(url, {
+    const socketConnection = io(socketUrl, {
       transports: ['polling', 'websocket'], // Start with polling, then upgrade to websocket
       reconnection: true,
       reconnectionAttempts: 5,
@@ -36,7 +48,7 @@ export const useSocket = (url: string = 'http://localhost:3001'): UseSocketRetur
       let errorMessage: string;
       
       if (err.message === 'xhr poll error' || err.message.includes('ECONNREFUSED')) {
-        errorMessage = 'Cannot connect to server. Please ensure Express server is running on port 3001.';
+        errorMessage = 'Cannot connect to server. Please check your connection.';
       } else if (err.message.includes('timeout')) {
         errorMessage = 'Connection timeout. Server may be overloaded.';
       } else {

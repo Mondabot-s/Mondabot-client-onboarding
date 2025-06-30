@@ -44,6 +44,9 @@ export const ServerStatus: React.FC<ServerStatusProps> = ({ className = '' }) =>
     }
   };
 
+  // Determine if we're in development or production
+  const isDevelopment = typeof window !== 'undefined' && window.location.hostname === 'localhost';
+
   if (apiStatus === 'offline' || !socketConnected) {
     return (
       <div className={`fixed bottom-4 right-4 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg shadow-lg max-w-md ${className}`}>
@@ -60,10 +63,12 @@ export const ServerStatus: React.FC<ServerStatusProps> = ({ className = '' }) =>
                 <p className="mt-1 text-xs text-red-600">{socketError}</p>
               )}
             </div>
-            <div className="mt-2 text-xs">
-              <p>Please ensure the Express server is running:</p>
-              <code className="bg-red-100 px-1 rounded">npm run server</code>
-            </div>
+            {isDevelopment && (
+              <div className="mt-2 text-xs">
+                <p>Please ensure the Express server is running:</p>
+                <code className="bg-red-100 px-1 rounded">npm run server</code>
+              </div>
+            )}
           </div>
         </div>
       </div>
